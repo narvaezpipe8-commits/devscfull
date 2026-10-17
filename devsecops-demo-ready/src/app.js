@@ -10,7 +10,7 @@ app.get('/health',(req,res)=>res.json({status:'UP',environment,version}));
 
 app.get('/api/info', (req, res) => {
   res.status(200).json({
-    name: 'DevSecOps Demo',
+    name: 'DevSecOps Demo01',
     version: version,
     environment: environment,
   });
