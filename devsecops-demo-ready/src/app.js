@@ -6,6 +6,16 @@ const requests=new client.Counter({name:'devsecops_http_requests_total',help:'To
 app.use((req,res,next)=>{res.on('finish',()=>requests.inc({method:req.method,route:req.path,status:String(res.statusCode),environment}));next();});
 app.get('/',(req,res)=>res.send(`<h1>DevSecOps Demo</h1><p>Environment: ${environment}</p><p>Version: ${version}</p>`));
 app.get('/health',(req,res)=>res.json({status:'UP',environment,version}));
+
+
+app.get('/api/info', (req, res) => {
+  res.status(200).json({
+    name: 'DevSecOps Demo',
+    version: version,
+    environment: environment,
+  });
+});
+
 app.get('/api/users',(req,res)=>res.json([{id:1,name:'Alice'},{id:2,name:'Bob'}]));
 app.get('/metrics',async(req,res)=>{res.set('Content-Type',client.register.contentType);res.end(await client.register.metrics());});
 if(require.main===module){const port=process.env.PORT||3000;app.listen(port,'0.0.0.0',()=>console.log(`Application ${environment} running on port ${port}`));}
